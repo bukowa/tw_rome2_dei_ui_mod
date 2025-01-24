@@ -101,32 +101,9 @@ cm:register_first_tick_callback(
 require("emp_start");
 
 ------------------------------------------------------------------------------------------------------------------
--- Mod options feature switcher
+-- Start Population scripts magnar + Litharion
 ------------------------------------------------------------------------------------------------------------------
-
--- Importing necessary libraries for logging and options management
-local lib_options = require "script._lib.lib_mod_options"
-local lib_logging = require "script._lib.lib_logging"
-
--- Initialize logger with a file and log level
-local logger = lib_logging.new_logger("dei_mod_options.log.txt", "INFO")
-
--- create new instance of options
-local options = lib_options.new_options()
-options:load()
-
--- supply_system
-if options:get_value("supply_system") == "on" then
-    logger:debug("loading supply system")
-    supply_system  = require "lua_scripts.supply_system";
-end
-
--- population_system
-if options:get_value("population_system") == "on" then
-    logger:debug("loading population system")
-    population = require "lua_scripts.population"
-end
-
+local population = require "lua_scripts.population"
 --------------------------------------------------------------------------------------------------------------------
 -- Start external scripts of DEI
 -- -- Selea, Litharion
@@ -134,6 +111,7 @@ end
 local reforms = require "lua_scripts.reforms";
 local army_caps = require "lua_scripts.army_caps";
 local PublicOrder  = require "lua_scripts.PublicOrder";
+local supply_system  = require "lua_scripts.supply_system";
 local money = require "lua_scripts.money";
 local changeCapital = require "lua_scripts.changeCapital";
 local auto_resolve  = require "lua_scripts.auto_resolve_bonus";
