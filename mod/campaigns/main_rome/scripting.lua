@@ -2978,7 +2978,27 @@ scripting.AddEventCallBack("TimeTrigger", OnTimeTrigger)
 ------------------------------------------------------------------------------------------------------------------
 -- Start Population scripts magnar + Litharion
 ------------------------------------------------------------------------------------------------------------------
-local population = require "lua_scripts.population"
+------------------------------------------------------------------------------------------------------------------
+-- Feature switcher
+------------------------------------------------------------------------------------------------------------------
+-- Importing necessary libraries for options management
+local lib_options = require "script._lib.lib_mod_options"
+local options = lib_options.new_options()
+options:load()
+
+-- Feature switch for population_system
+local population = nil
+if options:get_value("population_system") == "on" then
+    local population_script = "lua_scripts.population"
+
+    -- Use a version without supply if supply_system is disabled
+    if options:get_value("supply_system") ~= "on" then
+        population_script = "lua_scripts.population_without_supply"
+    end
+
+    population = require(population_script)
+end
+
 --------------------------------------------------------------------------------------------------------------------
 -- Start external scripts of DEI
 -- Selea, Litharion
@@ -2991,7 +3011,11 @@ local gc_scripts  = require "lua_scripts.gc_scripts";
 local gc_start_scripts  = require "lua_scripts.gc_first_turn_setup";
 local auto_resolve  = require "lua_scripts.auto_resolve_bonus";
 local PublicOrder  = require "lua_scripts.PublicOrder";
-local supply_system  = require "lua_scripts.supply_system";
+-- feature switch supply_system
+local supply_system = nil
+if options:get_value("supply_system") == "on" then
+    supply_system  = require "lua_scripts.supply_system";
+end
 local historical_events = require "lua_scripts.historical_events";
 local SeleucidRebels = require "lua_scripts.SeleucidRebels";
 local changeCapital = require "lua_scripts.changeCapital";

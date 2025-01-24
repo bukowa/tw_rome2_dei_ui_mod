@@ -1159,8 +1159,23 @@ scripting.AddEventCallBack("SettlementSelected", OnSettlementSelected)
 ------------------------------------------------------------------------------------------------------------------
 -- Start Population scripts magnar + Litharion
 ------------------------------------------------------------------------------------------------------------------
-local population = require "lua_scripts.population"
-
+------------------------------------------------------------------------------------------------------------------
+-- Feature switcher
+------------------------------------------------------------------------------------------------------------------
+-- Importing necessary libraries for options management
+local lib_options = require "script._lib.lib_mod_options"
+local options = lib_options.new_options()
+options:load()
+-- Feature switch for population_system
+local population = nil
+if options:get_value("population_system") == "on" then
+    local population_script = "lua_scripts.population"
+    -- Use a version without supply if supply_system is disabled
+    if options:get_value("supply_system") ~= "on" then
+        population_script = "lua_scripts.population_without_supply"
+    end
+    population = require(population_script)
+end
 --------------------------------------------------------------------------------------------------------------------
 -- Start external scripts of DEI
 -- Selea, Litharion
@@ -1169,7 +1184,11 @@ local population = require "lua_scripts.population"
 local reforms = require "lua_scripts.reforms";
 local army_caps = require "lua_scripts.army_caps";
 local PublicOrder  = require "lua_scripts.PublicOrder";
-local supply_system  = require "lua_scripts.supply_system";
+-- feature switch supply_system
+local supply_system = nil
+if options:get_value("supply_system") == "on" then
+    supply_system  = require "lua_scripts.supply_system";
+end
 local money = require "lua_scripts.money";
 local changeCapital = require "lua_scripts.changeCapital";
 local auto_resolve  = require "lua_scripts.auto_resolve_bonus";
