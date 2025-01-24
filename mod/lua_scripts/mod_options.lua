@@ -18,15 +18,15 @@ local options = lib_options.new_options()
 local function start_frontend()
     -- Load options from a configuration file
     options:load()
-    
-    
+
+
     local function logit(context)
         local c = UIComponent(context.component)
         logger:debug("compontent: " .. context.string .. " state " .. c:CurrentState())
     end
-    
+
     scripting.AddEventCallBack("ComponentMouseOn", logit)
-    
+
     -- Helper function to load checkbox states based on saved options
     local function OptCheckboxLoad(component, option_key)
         local value = options:get_value(option_key)
@@ -48,14 +48,14 @@ local function start_frontend()
         else
             options:set_value(option_key, "off")
         end
-        
+
         -- Save the updated options to the configuration file
         options:save()
     end
 
     -- Track whether mod options have been loaded
     local loaded = false
-    
+
     -- Function to load mod options if they haven't been loaded yet
     local function LoadModOptions(context)
         if loaded == true then return end
@@ -65,7 +65,7 @@ local function start_frontend()
             loaded = true
             OptCheckboxLoad(UIComponent(population_system), "population_system")
         end
-        
+
         -- checkbox_dei_supply_script
         local supply_system = m_root:Find("checkbox_dei_supply_script")
         if supply_system then
@@ -73,16 +73,16 @@ local function start_frontend()
             OptCheckboxLoad(UIComponent(supply_system), "supply_system")
         end
     end
-    
+
     -- Function to save mod options when user clicks the "OK" button
     local function SaveModOptions(context)
-    
+
         -- checkbox_dei_population_script
         local population_system = m_root:Find("checkbox_dei_population_script")
         if population_system then
             OptCheckboxSave(UIComponent(population_system), "population_system")
         end
-        
+
         -- checkbox_dei_supply_script
         local supply_system = m_root:Find("checkbox_dei_supply_script")
         if supply_system then
