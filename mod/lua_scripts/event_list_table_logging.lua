@@ -4,18 +4,36 @@ local scripting = require "lua_scripts.EpisodicScripting"
 local logger = lib_logging.new_logger("event_list_table_logging.txt", "DEBUG")
 
 local function logit(event_name, context)
-    local c = UIComponent(context.component)
-    if c == nil then
-        logger:debug("event: " .. event_name .. "context: " .. context.string)
+    logger:debug(event_name)
+
+    if context.component == nil then
+        -- If component is nil, handle accordingly
+        local context_string = context.string or "(nil context.string)"
+        logger:debug(" context: " .. context_string)
         return
     end
-    logger:debug("event: " .. event_name .. " component: " .. context.string .. " state: " .. c:CurrentState())
+
+    local c = UIComponent(context.component)
+    local context_string = context.string or "(nil context.string)"
+    local state = c:CurrentState() or "(nil state)"
+
+    -- Log the event with safe values
+    logger:debug(" component: " .. context_string .. " state: " .. state)
 end
 
 local function addEventLogger(event_name)
-    scripting.AddEventCallBack(event_name, function(context)
-        logit(event_name, context)
-    end)
+
+    if event_name == "TimeTrigger" then
+        return
+    end
+
+    local function callback(context)
+        logger:debug("=============================================================")
+        logger:pcall(function() logit(event_name, context) end)
+        logger:debug("=============================================================")
+    end
+
+    scripting.AddEventCallBack(event_name, callback)
 end
 
 local event_list = {
