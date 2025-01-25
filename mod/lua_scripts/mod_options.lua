@@ -1,3 +1,12 @@
+-- Set the log level for the logger
+local LOG_LEVEL = "INFO"
+
+-- if in DEBUG import event_list_table_logging.lua
+if LOG_LEVEL == "DEBUG" then
+    local table_logging = require "lua_scripts.event_list_table_logging"
+    table_logging.addAllEventLoggers()
+end
+
 -- Importing necessary libraries for logging and options management
 local lib_logging = require "script._lib.lib_logging"
 local lib_options = require "script._lib.lib_mod_options"
@@ -9,7 +18,7 @@ local scripting = require "lua_scripts.EpisodicScripting"
 m_root = nil
 
 -- Initialize logger with a file and log level
-local logger = lib_logging.new_logger("log_lib_header.txt", "DEBUG")
+local logger = lib_logging.new_logger("log_lib_header.txt", LOG_LEVEL)
 
 -- Load and manage mod options
 local options = lib_options.new_options()
@@ -19,17 +28,10 @@ local function start_frontend()
     -- Load options from a configuration file
     options:load()
 
-
-    local function logit(context)
-        local c = UIComponent(context.component)
-        logger:debug("compontent: " .. context.string .. " state " .. c:CurrentState())
-    end
-
-    scripting.AddEventCallBack("ComponentMouseOn", logit)
-
     -- Helper function to load checkbox states based on saved options
     local function OptCheckboxLoad(component, option_key)
         local value = options:get_value(option_key)
+
         if value == "on" then
             component:SetState("selected")
         else
@@ -39,11 +41,10 @@ local function start_frontend()
 
     -- Helper function to save checkbox states based on user interaction
     local function OptCheckboxSave(component, option_key)
-        -- Get the current state of the checkbox
-        state = component:CurrentState()
+        local state = component:CurrentState()
 
         -- Update the options based on the checkbox state
-        if component:CurrentState() == "selected" then
+        if state == "selected" then
             options:set_value(option_key, "on")
         else
             options:set_value(option_key, "off")
@@ -53,23 +54,18 @@ local function start_frontend()
         options:save()
     end
 
-    -- Track whether mod options have been loaded
-    local loaded = false
-
     -- Function to load mod options if they haven't been loaded yet
     local function LoadModOptions(context)
-        if loaded == true then return end
+
         -- checkbox_dei_population_script
         local population_system = m_root:Find("checkbox_dei_population_script")
         if population_system then
-            loaded = true
             OptCheckboxLoad(UIComponent(population_system), "population_system")
         end
 
         -- checkbox_dei_supply_script
         local supply_system = m_root:Find("checkbox_dei_supply_script")
         if supply_system then
-            loaded = true
             OptCheckboxLoad(UIComponent(supply_system), "supply_system")
         end
     end
@@ -92,17 +88,21 @@ local function start_frontend()
 
     -- Event handler for left mouse button click up event
     local function OnComponentLClickUp(context)
-        local component = UIComponent(context.component)
-
-        -- Save mod options if the "OK" button was clicked
         if context.string == "button_ok" then
             SaveModOptions(context)
-            loaded = false
+        end
+
+    end
+
+    -- Function to handle the opening of the mod options menu
+    local function OnMenuOptionsModOpened(context)
+        if context.string == "options_mods" then
+            LoadModOptions(context)
         end
     end
 
     -- Register event handlers for UI component interactions
-    scripting.AddEventCallBack("ComponentMouseOn", function(context) logger:pcall(LoadModOptions, context) end)
+    scripting.AddEventCallBack("FrontendScreenTransition", function(context) logger:pcall(OnMenuOptionsModOpened, context) end)
     scripting.AddEventCallBack("ComponentLClickUp", function(context) logger:pcall(OnComponentLClickUp, context) end)
 end
 
