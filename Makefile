@@ -2,6 +2,7 @@ MOD_FILE_NAME="dei_feature_selector.pack"
 IMG_FILE_NAME="dei_feature_selector.png"
 
 build:
+	python convert_xml_to_ui.py
 	rpfm_cli --game rome_2 pack create --pack-path=${MOD_FILE_NAME}
 	rpfm_cli --game rome_2 pack add --pack-path=${MOD_FILE_NAME} -F './mod;'
 
