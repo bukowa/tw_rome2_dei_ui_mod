@@ -5293,7 +5293,7 @@
                 <u>434658432</u><!-- ID (80 5c e8 19) -->
                 <s>State</s><!-- title - NewState -->
                 <i>940</i><!-- x size -->
-                <i>120</i><!-- y size -->
+                <i>350</i><!-- y size -->
                 <unicode></unicode><!-- state text -->
                 <unicode></unicode><!-- tooltip -->
                 <i>0</i><!-- text xsize? -->
@@ -5342,7 +5342,7 @@
                     <u>0</u><!-- x offset -->
                     <u>0</u><!-- y offset -->
                     <u>940</u><!-- x size -->
-                    <u>120</u><!-- y size -->
+                    <u>350</u><!-- y size -->
                     <!-- color -->
                     <color>
                       <byte>255</byte><!-- B -->
@@ -5421,7 +5421,7 @@
                     <u>434659840</u><!-- ID (00 62 e8 19) -->
                     <s>MainState</s><!-- title - NewState -->
                     <i>925</i><!-- x size -->
-                    <i>120</i><!-- y size -->
+                    <i>350</i><!-- y size -->
                     <unicode>dy_description</unicode><!-- state text -->
                     <unicode></unicode><!-- tooltip -->
                     <i>2</i><!-- text xsize? -->
@@ -5536,7 +5536,7 @@
                     <u>434661824</u><!-- ID (c0 69 e8 19) -->
                     <s>NewState</s><!-- title - NewState -->
                     <i>15</i><!-- x size -->
-                    <i>100</i><!-- y size -->
+                    <i>330</i><!-- y size -->
                     <unicode></unicode><!-- state text -->
                     <unicode></unicode><!-- tooltip -->
                     <i>2</i><!-- text xsize? -->
@@ -5585,7 +5585,7 @@
                         <u>0</u><!-- x offset -->
                         <u>0</u><!-- y offset -->
                         <u>15</u><!-- x size -->
-                        <u>109</u><!-- y size -->
+                        <u>339</u><!-- y size -->
                         <!-- color -->
                         <color>
                           <byte>0</byte><!-- B -->
@@ -5617,7 +5617,7 @@
                         <u>0</u><!-- x offset -->
                         <u>0</u><!-- y offset -->
                         <u>15</u><!-- x size -->
-                        <u>109</u><!-- y size -->
+                        <u>339</u><!-- y size -->
                         <!-- color -->
                         <color>
                           <byte>255</byte><!-- B -->
@@ -6142,7 +6142,7 @@
             <unicode></unicode><!-- tooltip id -->
             <i>8</i><!-- 08:00:00:00 --><!-- docking? -->
             <i>0</i><!-- 00:00:00:00 --><!-- docking x? -->
-            <i>-130</i><!-- 7e:ff:ff:ff --><!-- docking y? -->
+            <i>-360</i><!-- 7e:ff:ff:ff --><!-- docking y? -->
             <no />
             <i>504689824</i><!-- default state id -->
             <images count="0">
